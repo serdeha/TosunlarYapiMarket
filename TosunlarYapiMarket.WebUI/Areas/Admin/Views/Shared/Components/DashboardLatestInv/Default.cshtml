@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Invoice>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Son Faturalar</h5>
+                    <div>
+                        <a asp-area="Admin" asp-action="Index" asp-controller="Invoice" class="btn btn-sm btn-default">Hepsini Gör</a>
+                    </div>
+                </div>
+                @if (Model.Count() > 0)
+                {
+                    <div class="m-t-30">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fatura No</th>
+                                        <th>Müşteri</th>
+                                        <th>Tarih</th>
+                                        <th>Tutar</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var invoice in Model)
+                                    {
+                                        <tr>
+                                            <td>#@invoice.InvoiceCode</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="d-flex align-items-center">
+                                                        <h6 class="m-l-10 m-b-0">@string.Concat(invoice.Customer?.FirstName," ",invoice.Customer?.LastName)</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>@invoice.InvoiceDate.ToString("dd MMMM yyyy")</td>
+                                            <td>@(invoice.DiscountedTotalPrice == 0 ? invoice.TotalPrice : invoice.DiscountedTotalPrice)</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge badge-@(invoice.IsPaid ? "success":"danger") badge-dot m-r-10"></span>
+                                                    <span>@(invoice.IsPaid ? "Ödendi" : "Ödenmedi")</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-default mt-3">
+                        <div class="d-flex justify-content-start">
+                            <span class="alert-icon m-r-20 font-size-30">
+                                <i class="anticon anticon-info-circle"></i>
+                            </span>
+                            <div>
+                                <h5 class="alert-heading">
+                                    Fatura Eklenmemiş.
+                                </h5>
+                                <p>Henüz fatura eklenmemiş. Bu alandan son eklenen 5 faturayı görebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

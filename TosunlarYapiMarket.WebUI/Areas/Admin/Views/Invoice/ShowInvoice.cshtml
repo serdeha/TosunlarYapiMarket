@@ -1,0 +1,114 @@
+﻿@model Invoice
+@{
+    ViewData["Title"] = "Faturayı Göster";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card">        
+        <div class="card-body" id="allData">
+            <div id="invoice" class="p-h-30">
+                <div class="m-t-15 lh-2">
+                    <div class="inline-block">
+                        <img class="img-fluid" src="~/img/logo/miniLogo.png" alt="Tosunlar Yapı Market">
+                        <address class="p-l-10">
+                            <span class="font-weight-semibold text-dark">Tosunlar Yapı Market</span><br>
+                            <span>Bahçelievler, 699. Sk. No:10/A D:Merkez</span><br>
+                            <span>71200 Kırıkkale Merkez/Kırıkkale</span><br>
+                            <abbr class="text-dark" title="Telefon">Telefon:</abbr>
+                            <span>0 (546) 486 23 59</span>
+                        </address>
+                    </div>
+                    <div class="float-right">
+                        <h2>Fatura</h2>
+                    </div>
+                </div>
+                <div class="row m-t-20 lh-2">
+                    <div class="col-sm-9">
+                        <h3 class="p-l-10 m-t-10">Fatura Sahibi</h3>
+                        <address class="p-l-10 m-t-10">
+                            <span class="font-weight-semibold text-dark">@string.Concat(Model.Customer?.FirstName," ",Model.Customer?.LastName)</span><br>
+                            <span>@(Model.Customer?.TelephoneNumber == null ? "Telefon numarası eklenmemiş." : $"{Model.Customer?.TelephoneNumber}") </span><br>
+                            <span>@(Model.Customer?.HomeAddress == null ? "Adres bilgisi eklenmemiş." : $"{Model.Customer?.HomeAddress}")</span>
+                        </address>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="m-t-80">
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">Fatura No :</span>
+                            </div>
+                            <div class="float-right">#@Model.InvoiceCode</div>
+                        </div>
+                        <div class="text-dark text-uppercase d-inline-block">
+                            <span class="font-weight-semibold text-dark">Tarih :</span>
+                        </div>
+                        <div class="float-right">@Model.InvoiceDate.ToShortDateString()</div>
+                    </div>
+                </div>
+                <div class="m-t-20">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ürün</th>
+                                    <th>Adet</th>
+                                    <th>KDV</th>
+                                    <th>Fiyat</th>
+                                    <th>Toplam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var stockBasket in Model.StockBaskets!)
+                                {
+                                    <tr>
+                                        <th>@stockBasket.StockName</th>
+                                        <td>@stockBasket.StockAnyDetail</td>
+                                        <td>% @stockBasket.Stock?.KDV</td>
+                                        <td>@stockBasket.StockPrice ₺</td>
+                                        <td>
+                                            @(Convert.ToDecimal(stockBasket.StockAnyDetail) * stockBasket.StockPrice) ₺
+                                        </td>
+                                    </tr>
+                                }                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row m-t-30 lh-1-8">
+                        <div class="col-sm-12">
+                            <div class="float-right text-right">
+                                @if(Model.DiscountedTotalPrice > 0)
+                                {
+                                    <p>İndirim Tutarı : @Model.DiscountPrice ₺</p>
+                                }                                
+                                <hr>
+                                <h3>
+                                    <span class="font-weight-semibold text-dark">Toplam :</span> @(Model.DiscountedTotalPrice == 0 ? Model.TotalPrice : Model.DiscountedTotalPrice) ₺
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-v-20">
+                        <div class="col-sm-6">
+                            <img class="img-fluid text-opacity m-t-5" width="100" src="~/img/logo/miniLogo.png" alt="Tosunlar Yapı Market">
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small><span class="font-weight-semibold text-dark">Telefon:</span> 0 (546) 486 23 59</small>
+                            <br>
+                            <small>admin@tosunlaryapimarket.com</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-success btn-sm mt-2" id="printInvoice">Çıktı Al</button>
+            <a asp-action="Index" asp-controller="Invoice" class="btn btn-warning text-white btn-sm mt-2" id="printInvoice"> ← Geri Dön</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/showInvoice.js"></script>
+    <script src="~/js/printThis.js"></script>
+    }

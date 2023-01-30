@@ -1,0 +1,44 @@
+﻿@model Invoice
+
+<div class="modal fade bd-example-modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4">
+                    <i class="fas fa-file-invoice"></i> @(string.Concat(Model.Customer?.FirstName," ",Model.Customer?.LastName)) Müşterisinin #@Model.InvoiceCode Faturasına İndirim Uygula
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="discountForm">
+
+                    <div class="form-row align-items-center">
+                        <div class="col-6">
+                            <label class="sr-only" for="inlineFormInput">Müşteri</label>
+                            <input class="form-control mb-2" id="inlineFormInput" value="@string.Concat(Model.Customer?.FirstName, " ", Model.Customer?.LastName)" readonly="readonly" />
+                        </div>
+                        <div class="col-6">
+                            <label class="sr-only" for="inlineFormInputGroup">İndirim Tutarı</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-lira-sign"></i>
+                                    </div>
+                                </div>
+                                <input asp-for="DiscountPrice" class="form-control" id="inlineFormInputGroup" placeholder="İndirim Miktarı">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-tone" id="discountPartial" data-id="@Model.Id" data-title="@string.Concat(Model.Customer?.FirstName, " ", Model.Customer?.LastName)">
+                    <i class="anticon anticon-credit-card"></i> İndirim Uygula
+                </button>
+                <button type="button" class="btn btn-danger font-weight-bold" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+﻿@model List<Stock>
+@{
+    ViewData["Title"] = "Ürünler";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string rowColor = string.Empty;
+}
+
+<div class="mb-2">
+    <a class="btn btn-primary text-white font-weight-bold" asp-area="Admin" asp-controller="Stock" asp-action="Add">
+        <i class="fas fa-box-open"></i> Ürün Ekle
+    </a>
+</div>
+
+
+@if (Model.Count > 0)
+{
+    <div id="modalPlaceHolder" aria-hidden="true"></div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h4>Ürünler</h4>
+            <div class="m-t-25">
+                <div id="data-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="col-sm-12">
+                        <table id="data-table" class="table dataTable" role="grid" aria-describedby="data-table_info">
+                            <thead>
+                                <tr>
+                                    <th>Ürün Resmi</th>
+                                    <th>Ürün İsmi</th>
+                                    <th>Fiyat</th>
+                                    <th>KDV</th>
+                                    <th>Adet/Metre/Metrekare/Ton</th>
+                                    <th>Ayarlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var stock in Model)
+                                {
+                                    rowColor = stock.StockAnyDetail <= 0 ? "text-danger" : string.Empty;
+                                    <tr name="@stock.Id">
+                                        <td>
+                                            <div class="avatar avatar-icon avatar-volcano avatar-square avatar-lg">
+                                                <img src="~/img/admin/stock/@(stock.ImageUrl ?? "defaultStock.png")" />
+                                            </div>
+                                        </td>
+                                        <td>@stock.StockName</td>
+                                        <td>@stock.Price ₺</td>
+                                        <td>@(stock.KDV == 0 ? "-" : string.Concat("%"," ", stock.KDV))</td>
+                                        <td class="@rowColor">
+                                            @($"{Math.Round(stock.StockAnyDetail,2)} {stock.StockDetail?.StockDetailName}") 
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary font-weight-bold text-white" asp-area="Admin" asp-controller="Stock" asp-action="Update" asp-route-stockId="@stock.Id">
+                                                    <i class="fas fa-edit mr-2"></i> Düzenle
+                                                </a>
+                                                <a class="btn btn-secondary font-weight-bold text-white stockDetail" data-id="@stock.Id">
+                                                    <i class="fas fa-sticky-note mr-2"></i> Detaylar
+                                                </a>
+                                                <a class="btn btn-danger font-weight-bold text-white deleteStock" data-id="@stock.Id" data-title="@stock.StockName">
+                                                    <i class="fas fa-trash-alt mr-2"></i> Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @section Css{
+    <link href="~/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/node_modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+        }
+
+    @section Scripts
+    {
+    <script src="~/assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="~/js/stock.js"></script>
+
+    <script type="text/javascript">
+        $('#data-table').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+            }
+        });
+    </script>
+    }
+
+}
+else
+{
+    <div class="alert alert-primary">
+        <div class="d-flex justify-content-start">
+            <span class="alert-icon m-r-20 font-size-30">
+                <i class="anticon anticon-info-circle"></i>
+            </span>
+            <div>
+                <h5 class="alert-heading">Ürünler Bulunamadı!</h5>
+                <p>Henüz herhangi bir ürün eklenmemiş.</p>
+            </div>
+        </div>
+    </div>
+}

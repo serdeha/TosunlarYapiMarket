@@ -1,0 +1,61 @@
+﻿@model StockDetail
+@{
+    ViewData["Title"] = $"{Model.StockDetailName} Detayını Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header mt-3 ml-3">
+        <h4>
+            <i class="fas fa-gold"></i> Ürün Detayını Güncelle
+        </h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="StockDetail" asp-action="Update" method="post">
+
+
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All">
+                </div>
+            }
+
+            <input type="hidden" asp-for="@Model.Id" />
+            <input type="hidden" asp-for="@Model.CreatedDate" />
+            <input type="hidden" asp-for="@Model.CreatedByName" />
+            <input type="hidden" asp-for="@Model.AppUserId" />
+
+
+            <div class="form-row">
+                <div class="form-group col-md-12 mt-2">
+                    <label asp-for="StockDetailName">Stok Detay İsmi <span class="text-muted text-sm-right">*(Metre/Metrekare/Adet/Ton)</span></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="anticon anticon-file-text"></i>
+                            </span>
+                        </div>
+                        <input asp-for="StockDetailName" class="form-control">
+                        <span class="text-danger" asp-validation-for="StockDetailName"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-refresh"></i> Güncelle
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a asp-area="Admin" asp-controller="StockDetail" asp-action="Index" class="btn btn-danger btn-block btn-lg">
+                        <i class="fas fa-times-circle"></i> Vazgeç
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+

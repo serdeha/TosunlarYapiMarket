@@ -1,0 +1,105 @@
+﻿<div class="side-nav">
+    <div class="side-nav-inner">
+        <ul class="side-nav-menu">
+            <li class="nav-item">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-dashboard"></i>
+                    </span>
+                    <span class="title">Anasayfa</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-team"></i>
+                    </span>
+                    <span class="title">Müşteriler</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Customer" asp-action="Index">Müşteriler</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Customer" asp-action="Add">Müşteri Ekle</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-gift"></i>
+                    </span>
+                    <span class="title">Ürünler</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Stock" asp-action="Index">Ürünler</a>
+                        <a asp-area="Admin" asp-controller="Stock" asp-action="Add">Ürün Ekle</a>
+                        <a asp-area="Admin" asp-controller="StockDetail" asp-action="Index">Ürün Detayları</a>
+                        <a asp-area="Admin" asp-controller="StockDetail" asp-action="Add">Ürün Detayı Ekle</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="fas fa-lira-sign"></i>
+                    </span>
+                    <span class="title">Borçlular</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Debt" asp-action="Index">Borçlular</a>
+                        <a asp-area="Admin" asp-controller="Debt" asp-action="Add">Borçlu Ekle</a>
+                        <a asp-area="Admin" asp-controller="Debt" asp-action="PaidDebts">Ödenen Borçlar</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-schedule"></i>
+                    </span>
+                    <span class="title">Notlar</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Note" asp-action="Index">Notlar</a>
+                        <a asp-area="Admin" asp-controller="Note" asp-action="Add">Not Ekle</a>
+                        <a asp-area="Admin" asp-controller="Note" asp-action="ApprovedNotes">Tamamlanmış Notlar</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-audit"></i>
+                    </span>
+                    <span class="title">Faturalar</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Invoice" asp-action="Index">Faturalar</a>
+                        <a asp-area="Admin" asp-controller="Invoice" asp-action="Add">Fatura Ekle</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

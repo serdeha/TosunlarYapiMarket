@@ -1,0 +1,126 @@
+﻿@model StockAddViewModel
+@{
+    ViewData["Title"] = "Ürün Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header mt-3 ml-3">
+        <h4>
+            <i class="fas fa-box-open"></i> Ürün Ekle
+        </h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Stock" asp-action="Add" method="post" enctype="multipart/form-data">
+
+
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All">
+                </div>
+            }
+
+
+            <div class="form-row mb-2">
+                <label>Ürün Fotoğrafı</label>
+                <div class="custom-file">
+                    <input asp-for="FormFile" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Ürün fotoğrafı seçiniz.</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6 mt-2">
+                    <label asp-for="StockName"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="anticon anticon-idcard"></i>
+                            </span>
+                        </div>
+                        <input asp-for="StockName" class="form-control">
+                        <span class="text-danger" asp-validation-for="StockName"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 mt-2">
+                    <label asp-for="Price"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-lira-sign"></i>
+                            </span>
+                        </div>
+                        <input asp-for="Price" class="form-control" id="priceInput">
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6 mt-2">
+                    <label>Ürün Detay</label><br />
+                    <select asp-for="StockDetailId" asp-items="@ViewBag.StockDetailList" id="stockDetailList" class="form-control-plaintext">
+                    </select>
+                    <span asp-validation-for="StockDetailId"></span>
+                </div>
+                <div class="form-group col-md-6 mt-2">
+                    <label asp-for="Kdv"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-percent"></i>
+                            </span>
+                        </div>
+                        <input asp-for="Kdv" class="form-control" id="kdvInput">
+                        <span class="text-danger" asp-validation-for="Kdv"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 mt-2">
+                    <label asp-for="StockAnyDetail">
+                        Stok Detayı <span class="text-gray">(Metre/Metrekare/Adet/Ton)</span>
+                    </label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="anticon anticon-cluster"></i>
+                            </span>
+                        </div>
+                        <input asp-for="StockAnyDetail" class="form-control" id="stockAnyDetailInput" />
+                        <span class="text-danger" asp-validation-for="StockDetailId"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-plus-circle"></i> Ekle
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a asp-area="Admin" asp-controller="Stock" asp-action="Index" class="btn btn-danger btn-block btn-lg">
+                        <i class="fas fa-times-circle"></i> Vazgeç
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Css
+    {
+    <link href="~/assets/vendors/select2/select2.css" rel="stylesheet">
+}
+
+@section Scripts
+    {
+    <script src="~/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.tr.min.js" charset="UTF-8"></script>
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/vendors/select2/select2.min.js"></script>
+    <script src="~/js/stock.js"></script>
+}

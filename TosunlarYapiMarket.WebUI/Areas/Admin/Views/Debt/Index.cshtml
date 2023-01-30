@@ -1,0 +1,95 @@
+﻿@model List<Debt>
+@{
+    ViewData["Title"] = ViewBag.CustomerTitle == null ? "Borçlular" : $"{ViewBag.CustomerTitle} Müşterisinin Borçları";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mb-2">
+    <a class="btn btn-primary text-white font-weight-bold" asp-area="Admin" asp-controller="Debt" asp-action="Add">
+        <i class="fas fa-lira-sign"></i> Borç Ekle
+    </a>
+</div>
+
+@if (Model.Count > 0)
+{
+    <div id="modalPlaceHolder" aria-hidden="true"></div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h4>@(ViewBag.CustomerTitle == null ? "Borçlular" : $"{ViewBag.CustomerTitle} Müşterisinin Borçları")</h4>
+            <div class="m-t-25">
+                <div id="data-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="col-sm-12">
+                        <table id="data-table" class="table dataTable" role="grid" aria-describedby="data-table_info">
+                            <thead>
+                                <tr>
+                                    <th>Müşteri</th>
+                                    <th>Borç Tarihi</th>
+                                    <th>Son Ödenen Tarih</th>
+                                    <th>Toplam Tutar</th>
+                                    <th>Kalan Borç Tutarı</th>
+                                    <th>Ayarlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var debt in Model)
+                                {
+                                    <tr class="PayOffDebtDetail" name="@debt.Id" data-debt="@debt.Id" data-customer="@string.Concat(debt.Customer?.FirstName," ",debt.Customer?.LastName)">
+                                        <td>@string.Concat(debt.Customer?.FirstName," ",debt.Customer?.LastName)</td>
+                                        <td>@debt.CreatedDate.ToShortDateString()</td>
+                                        <td>@debt.PaymentDate.ToShortDateString()</td>
+                                        <td>@debt.TotalAmount ₺</td>
+                                        <td>@debt.PaymentAmount ₺</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-success text-white font-weight-bold payDebt" data-id="@debt.Id">
+                                                    <i class="fas fa-credit-card"></i> Öde
+                                                </a>
+                                                <a class="btn btn-primary text-white font-weight-bold" asp-area="Admin" asp-controller="Debt" asp-action="Update" asp-route-debtId="@debt.Id">
+                                                    <i class="fas fa-edit"></i> Düzenle
+                                                </a>
+                                                <a class="btn btn-danger text-white font-weight-bold deleteDebt" data-id="@debt.Id" data-title="@string.Concat(debt.Customer?.FirstName, " ", debt.Customer?.LastName)">
+                                                    <i class="fas fa-trash-alt"></i> Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Css{
+    <link href="~/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/node_modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    }
+
+    @section Scripts {
+    <script src="~/assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="~/node_modules/moment/moment.js"></script>
+    <script src="~/js/debt.js"></script>
+    }
+}
+else
+{
+    <div class="alert alert-primary">
+        <div class="d-flex justify-content-start">
+            <span class="alert-icon m-r-20 font-size-30">
+                <i class="anticon anticon-info-circle"></i>
+            </span>
+            <div>
+                <h5 class="alert-heading">
+                    Borç bulunamadı.
+                </h5>
+                <p>Henüz borçlu kişi eklenmemiş veya kişinin henüz borcu bulunmuyor.</p>
+            </div>
+        </div>
+    </div>
+}

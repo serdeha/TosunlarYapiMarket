@@ -1,0 +1,42 @@
+﻿@model Stock
+
+<div class="modal fade" id="exampleModalCenter">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">@Model.StockName Ürün Detayları</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body font-size-20">
+                <p>
+                    <img style="width: 450px; height: 300px" src="~/img/admin/stock/@(Model.ImageUrl ?? "defaultStock.png")" class="img-thumbnail" />
+                </p>
+                <p> <b>KDV :</b> @(Model.KDV == 0 ? "-" : string.Concat(Model.KDV, " ", "%"))</p>                
+                <p> <b>Fiyat :</b> @(Model.Price == 0 ? "-" : string.Concat(Model.Price, " ", "₺"))</p>
+                <p> <b>Ürün Birimi:</b> 
+                    @($"{Math.Round(Model.StockAnyDetail,2)} {Model.StockDetail?.StockDetailName}")
+                </p>
+                
+                <p>
+                    <a class="text-link text-primary text-justify" id="getStockDetailBtn">↓↓↓ Detayları Gör ↓↓↓</a>
+                </p>
+                
+                <div style="display: none" id="GetStockDetail">
+                    <hr/>
+                    <p> <b>Ekleyen :</b> @Model.CreatedByName</p>
+                    <p> <b>Ekleme Tarihi :</b> @Model.CreatedDate</p>
+                    <p> <b>Düzenleyen :</b> @Model.ModifiedByName</p>
+                    <p> <b>Düzenleme Tarihi :</b> @Model.ModifiedDate</p>
+                </div>
+               
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger font-weight-bold" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

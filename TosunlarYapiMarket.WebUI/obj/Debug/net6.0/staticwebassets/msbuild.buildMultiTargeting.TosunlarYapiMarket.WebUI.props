@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TosunlarYapiMarket.WebUI.props" />
+</Project>

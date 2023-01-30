@@ -1,0 +1,108 @@
+﻿@model Stock
+@{
+    ViewData["Title"] = $"{Model.StockName} Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header mt-3 ml-3">
+        <h4>
+            <i class="fas fa-edit fa-2x"></i> @Model.StockName Ürününü Güncelle
+        </h4>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Stock" asp-action="Update" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="CreatedByName" type="hidden" />
+            <input asp-for="CreatedDate" type="hidden" />
+            <input asp-for="AppUserId" type="hidden" />
+            <input asp-for="ImageUrl" type="hidden" />
+            
+            <div class="mb-3">
+                <label>Şu anki Ürün Fotoğrafı</label><br/>
+                <img style="width: 200px; height: 120px" class="img-thumbnail" src="~/img/admin/stock/@(Model.ImageUrl ?? "defaultStock")" />
+            </div>
+            <div class="mb-2">
+                <label>Ürün Fotoğrafı</label>
+                <div class="custom-file">
+                    <input asp-for="ImageFile" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Ürün fotoğrafı seçiniz.</label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Ürün İsmi</label>
+                <input asp-for="StockName" class="form-control">
+                <span class="text-danger" asp-validation-for="StockName"></span>
+            </div>
+            <div class="mb-3">
+                <label>Ürün Fiyatı</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-lira-sign"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Price" class="form-control" id="inputPrice">
+                    <span class="text-danger" asp-validation-for="Price"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>KDV</label> <sup class="text-gray"> * Lütfen nokta(.) yerine virgül(,) kullanınız.</sup>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-percent"></i>
+                        </span>
+                    </div>
+                    <input asp-for="KDV" class="form-control" id="kdvInput">
+                    <span class="text-danger" asp-validation-for="KDV"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Ürün Detay</label><br />
+                <select asp-for="StockDetailId" asp-items="@ViewBag.StockDetailList" id="stockDetailList" class="form-control-plaintext">
+                </select>
+                <span asp-validation-for="StockDetailId"></span>
+            </div>
+            <div class="mb-3">
+                <label>Stok Detayı</label> <sup class="text-gray"> *(@Model.StockDetail?.StockDetailName)</sup>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="anticon anticon-gold"></i>
+                        </span>
+                    </div>
+                    <input asp-for="StockAnyDetail" class="form-control" id="stockAnyDetailInput">
+                    <span class="text-danger" asp-validation-for="StockAnyDetail"></span>
+                </div>
+            </div>           
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-edit"></i> Güncelle
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a asp-area="Admin" asp-controller="Stock" asp-action="Index" class="btn btn-danger btn-block btn-lg">
+                        <i class="fas fa-times-circle"></i> Vazgeç
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Css
+    {
+    <link href="~/assets/vendors/select2/select2.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet" />
+}
+
+    @section Scripts
+    {
+    <script src="~/assets/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/vendors/select2/select2.min.js"></script>
+    <script src="~/js/stock.js"></script>
+    }
+

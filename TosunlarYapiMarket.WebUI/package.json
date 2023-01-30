@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "sweetalert2": "11.6.0",
+    "moment": "2.29.4" 
+  }
+}

@@ -1,0 +1,52 @@
+﻿@model Customer
+
+<div class="modal fade" id="exampleModalCenter">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">
+                    <i class="fas fa-user fa-1x"></i> @string.Concat(Model.FirstName, " ", Model.LastName) Detayları
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body font-size-20">
+
+                <p>
+                    <i class="fas fa-id-card-alt"></i> | <b>Müşteri NO :</b> @(Model.CustomerNo ??= "-")
+                </p>
+                <p>
+                    <i class="fas fa-phone-alt"></i> | <b>Telefon Numarası :</b> @(Model.TelephoneNumber ??= "-")
+                </p>
+                <p>
+                    <i class="fas fa-lira-sign"></i> | <b>Borç :</b> @(Model.CustomerDebt > 0 ? $"{Model.CustomerDebt} ₺" : "Bulunmuyor.")
+                </p>
+                <p>
+                    <i class="fas fa-home"></i> | <b>Ev Adresi :</b> @(Model.HomeAddress ??= "-")
+                </p>
+                <p>
+                    <i class="fas fa-building"></i> | <b>İş Adresi :</b> @(Model.BusinessAddress ??= "-")
+                </p>
+                
+                <hr/>
+                
+                <div class="text-center">
+                    <a class="btn btn-success text-white font-weight-bold" asp-area="Admin" asp-controller="Invoice" asp-action="Index" asp-route-customerId="@Model.Id" target="_blank">
+                        <i class="fas fa-file-invoice"></i> Faturalar
+                    </a>
+                    <a class="btn btn-secondary text-white font-weight-bold" asp-area="Admin" asp-controller="Debt" asp-action="Index" asp-route-customerId="@Model.Id" target="_blank">
+                        <i class="fas fa-lira-sign"></i> Borçlar
+                    </a>
+                    <a class="btn btn-primary text-white font-weight-bold" asp-area="Admin" asp-controller="Note" asp-action="Index" asp-route-customerId="@Model.Id" target="_blank">
+                        <i class="fas fa-sticky-note"></i> Notlar
+                    </a>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger font-weight-bold" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿@model List<Debt>
+@{
+    ViewData["Title"] = "Ödenen Borçlar";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Count > 0)
+{
+    <div id="modalPlaceHolder" aria-hidden="true"></div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h4>@(ViewBag.CustomerTitle == null ? "Ödemesi Tamamlanan Borçlar" : $"{ViewBag.CustomerTitle} Müşterisinin Ödenen Borçları")</h4>
+            <div class="m-t-25">
+                <div id="data-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="col-sm-12">
+                        <table id="data-table" class="table dataTable" role="grid" aria-describedby="data-table_info">
+                            <thead>
+                                <tr>
+                                    <th>Müşteri</th>
+                                    <th>Borç Tarihi</th>
+                                    <th>Ödenen Tarih</th>
+                                    <th>Toplam Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var debt in Model)
+                                {
+                                    <tr class="PayOffDebtDetail" name="@debt.Id" data-debtId="@debt.Id" data-customer="@string.Concat(debt.Customer?.FirstName," ",debt.Customer?.LastName)">
+                                        <td>@string.Concat(debt.Customer?.FirstName," ",debt.Customer?.LastName)</td>
+                                        <td>@debt.CreatedDate.ToShortDateString()</td>
+                                        <td>@debt.PaymentDate.ToShortDateString()</td>
+                                        <td>@debt.TotalAmount ₺</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Css{
+    <link href="~/assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/node_modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    }
+
+    @section Scripts {
+    <script src="~/assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="~/js/DebtPaid.js"></script>
+    }
+}
+else
+{
+    <div class="alert alert-primary">
+        <div class="d-flex justify-content-start">
+            <span class="alert-icon m-r-20 font-size-30">
+                <i class="anticon anticon-info-circle"></i>
+            </span>
+            <div>
+                <h5 class="alert-heading">
+                    Borç bulunamadı.
+                </h5>
+                <p>Henüz borçlu kişi eklenmemiş veya kişinin henüz borç ödemesi bulunmuyor.</p>
+            </div>
+        </div>
+    </div>
+}
+
