@@ -100,7 +100,7 @@ $(document).on('click', '#discountPartial', function (event) {
                                                 <a class="btn btn-secondary text-white" href="/Admin/Invoice/ShowInvoice?invoiceId=${parsedData.Id}">
                                                     <i class="fas fa-file-invoice"></i> Faturayı Gör
                                                 </a>
-                                                <button class="btn btn-primary text-white btnDiscount" data-id="${parsedData.Id}" style="${invoice.IsPaid ? 'display:none' : ''}">
+                                                <button class="btn btn-primary text-white btnDiscount" data-id="${parsedData.Id}" style="${parsedData.IsPaid ? 'display:none' : ''}">
                                                     <i class="fa fa-tag"></i>  İndirim
                                                 </button>
                                                 <button class="btn btn-danger text-white deleteInvoice" data-id="${parsedData.Id}" data-title="${parsedData.Customer.FirstName} ${parsedData.Customer.LastName}">

@@ -212,7 +212,6 @@ namespace TosunlarYapiMarket.WebUI.Areas.Admin.Controllers
                 ReferenceHandler = ReferenceHandler.Preserve
             }));
         }
-        // bir faturanın bir borcu olacak
         public async Task<IActionResult> AddDiscount(int invoiceId, decimal discountPrice)
         {
             var invoice = await _invoiceService.GetByIdAsync(invoiceId);
@@ -221,15 +220,25 @@ namespace TosunlarYapiMarket.WebUI.Areas.Admin.Controllers
             {
                 invoice.Customer = await _customerService.GetByIdAsync(invoice.CustomerId);
                 invoice.DiscountPrice += discountPrice;
-                // direk added price üzerinden işlemi sağla.
-                if (invoice.DiscountedTotalPrice > 0)
+                var debt = await _debtService.GetWithFilterAsync(x => x.IsActive && !x.IsDeleted && x.InvoiceId == invoice.Id);
+                if (invoice.DiscountedTotalPrice > 0 && debt != null)
                 {
                     invoice.DiscountedTotalPrice = invoice.DiscountedTotalPrice -= discountPrice;
+                    debt.TotalAmount = invoice.DiscountedTotalPrice;
+                    debt.PaymentAmount = invoice.DiscountedTotalPrice;
+                    await _debtService.UpdateAsync(debt);
                 }
                 else
                 {
                     invoice.DiscountedTotalPrice = invoice.TotalPrice - discountPrice;
-                }                
+                    if(debt != null)
+                    {
+                        debt.TotalAmount = invoice.DiscountedTotalPrice;
+                        debt.PaymentAmount = invoice.DiscountedTotalPrice;
+                        await _debtService.UpdateAsync(debt);
+                    }
+                }
+                
                 await _invoiceService.UpdateAsync(invoice);
                 return Json(JsonSerializer.Serialize(invoice, new JsonSerializerOptions
                 {
